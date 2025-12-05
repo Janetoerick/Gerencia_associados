@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # 1. Serviço APP (PHP-FPM): Onde a lógica PHP é processada
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: associados_app
+    # Mapeia a pasta do projeto para dentro do contêiner
+    volumes:
+      - .:/var/www/html 
+    # Depende do banco de dados para iniciar
+    depends_on:
+      - db
+    # Variáveis de ambiente para o PHP se conectar ao MySQL
+    environment:
+      DATABASE_HOST: db
+      DATABASE_NAME: associacao
+      DATABASE_USER: root
+      DATABASE_PASSWORD: root_password 
+
+  # 2. Serviço NGINX: Servidor Web que recebe as requisições e as encaminha ao PHP-FPM
+  nginx:
+    image: nginx:stable-alpine
+    container_name: associados_nginx
+    # Mapeia a porta 80 do contêiner Nginx para a porta 8000 do seu host (PC)
+    ports:
+      - "8000:80" 
+    volumes:
+      # Mapeia seu código para o servidor web
+      - .:/var/www/html 
+      # Mapeia o arquivo de configuração do Nginx para configurar o Document Root (public)
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf 
+    # Depende do serviço 'app' (PHP-FPM) para processar o PHP
+    depends_on:
+      - app
+
+  # 3. Serviço DB (MYSQL): Onde os dados são armazenados
+  db:
+    image: mysql:8.0
+    container_name: associados_db
+    environment:
+      # Configurações iniciais do MySQL
+      MYSQL_ROOT_PASSWORD: root_password 
+      MYSQL_DATABASE: associacao
+    # Garante que os dados do banco de dados persistam (não serão perdidos se o contêiner parar)
+    volumes:
+      - db_data:/var/lib/mysql 
+      - ./docker/init:/docker-entrypoint-initdb.d
+
+# Define o volume persistente para o MySQL
+volumes:
+  db_data:
