@@ -206,9 +206,11 @@ class AssociadoController {
         $resultado = $this->model->delete($id);
 
         if ($resultado) {
-            header('Location: /associados?msg=excluido_sucesso');
+            $_SESSION['msg_sucesso'] = " Associado deletado com sucesso!";
+            header('Location: /associados');
         } else {
-            header('Location: /associados?error=falha_exclusao');
+            $_SESSION['msg_erro'] = "Erro ao deletar associado.";
+            header('Location: /associados');
         }
         exit; 
     }

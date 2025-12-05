@@ -67,4 +67,54 @@ class CobrancaModel
         return $count;
     }
 
+    /**
+    * Busca todas as cobranças de um associado.
+    */
+    public function findByAssociadoId(int $associadoId)
+    {
+        $sql = "SELECT 
+                    c.id, 
+                    c.valor_cobrado, 
+                    c.pago, 
+                    c.data_pagamento, 
+                    c.Anuidade_ano,
+                    a.valor AS valor_anuidade_base
+                FROM cobranca c
+                JOIN anuidade a ON c.Anuidade_ano = a.ano
+                WHERE c.Associado_id = :associado_id
+                ORDER BY c.Anuidade_ano DESC";
+        
+        try {
+            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt->bindParam(':associado_id', $associadoId, \PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            error_log("Erro ao buscar cobranças por associado: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+    * Busca o valor total de cobrancas do associado pelo id.
+    */
+    public function valorTotalAssociadoId(int $associadoId)
+    {
+        $sql = "SELECT SUM(valor_cobrado) AS total FROM cobranca WHERE pago = 0 AND Associado_id = :associadoId;";
+
+        try {
+            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt->bindParam(':associadoId', $associadoId, \PDO::PARAM_INT);
+            $stmt->execute();
+
+            $total = $stmt->fetchColumn();
+
+            return (float)($total ?? 0.00);
+
+        } catch (\PDOException $e) {
+            error_log("Erro ao buscar cobranças por associado: " . $e->getMessage());
+            return [];
+        }
+    }
+
 }

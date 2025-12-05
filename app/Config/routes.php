@@ -39,11 +39,15 @@ return function (RouteCollector $r) {
     $r->addRoute('POST', '/anuidades', 'AnuidadeController@store');
 
     // GET /anuidades/{ano}/editar (Visualizar Formulário de Edição de Anuidade)
-    $r->addRoute('GET', '/anuidades/{ano:\d+}/editar', 'AnuidadeController@edit');
+    $r->addRoute('GET', '/anuidades/{ano}/editar', 'AnuidadeController@edit');
 
     // PUT /anuidades/{ano}/update (Editar Anuidade)
-    $r->addRoute('PUT', '/anuidades/{ano:\d+}/update', 'AnuidadeController@update');
+    $r->addRoute('PUT', '/anuidades/{ano}/update', 'AnuidadeController@update');
 
     // DELETE /anuidades/{ano}/delete (Excluir Anuidade)
-    $r->addRoute('DELETE', '/anuidades/{ano:\d+}/delete', 'AnuidadeController@destroy');
+    $r->addRoute('DELETE', '/anuidades/{ano}/delete', 'AnuidadeController@destroy');
+
+    // Rota Cobranca |----------------------------------------------------------------------------------
+    // GET /associados/{id}/cobrancas (Listagem)
+    $r->addRoute('GET', '/associados/{id}/cobrancas', 'CobrancaController@index');
 };
