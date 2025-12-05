@@ -58,6 +58,9 @@ return function (RouteCollector $r) {
     // GET /anuidades/nova (Visualizar Formulário de Criação de cobrança)
     $r->addRoute('GET', '/associados/{id}/cobrancas/novo', 'CobrancaController@create');
 
-    // Processar o formulário de nova cobrança
+    // POST /associados/cobrancas (Salva nova cobrança para o associado)
     $r->addRoute('POST', '/associados/cobrancas', 'CobrancaController@store');
+
+    // POST /cobrancas/{id}/pagar (Realiza pagamento de uma cobrança)
+    $r->addRoute('POST', '/cobrancas/{id}/pagar', 'CobrancaController@pagar');
 };

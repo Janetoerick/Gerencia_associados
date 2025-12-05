@@ -140,4 +140,31 @@ class CobrancaModel
         }
     }
 
+    /**
+    * Registra o pagamento de uma cobrança específica.
+    */
+    public function registrarPagamento(int $cobrancaId): bool
+    {
+        // Define a data de pagamento para a data atual
+        $dataPagamento = date('Y-m-d');
+        
+        $sql = "UPDATE cobranca 
+                SET pago = 1, data_pagamento = :dataPagamento 
+                WHERE id = :cobrancaId AND pago = 0";
+
+        try {
+            $stmt = $this->db->getConnection()->prepare($sql);
+            
+            $stmt->bindParam(':dataPagamento', $dataPagamento);
+            $stmt->bindParam(':cobrancaId', $cobrancaId, \PDO::PARAM_INT);
+            
+            // Executa a atualização e retorna o resultado (true/false)
+            return $stmt->execute();
+            
+        } catch (\PDOException $e) {
+            error_log("Erro SQL ao registrar pagamento (ID: {$cobrancaId}): " . $e->getMessage());
+            return false;
+        }
+    }
+
 }
