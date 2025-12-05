@@ -171,7 +171,7 @@ class AssociadoController {
     * Processa a atualização de um associado.
     * rota POST /associados
     */
-    public function update($id)
+    public function update(int $id)
     {
         
         // Coleta e limpa os dados do formulário
@@ -191,6 +191,23 @@ class AssociadoController {
         }
         
         header('Location: /associados');
+    }
+
+    /**
+    * Processa a exclusão de um associado.
+    * rota DELETE /associados/{id}
+    */
+    public function destroy(int $id)
+    {
+
+        $resultado = $this->model->delete($id);
+
+        if ($resultado) {
+            header('Location: /associados?msg=excluido_sucesso');
+        } else {
+            header('Location: /associados?error=falha_exclusao');
+        }
+        exit; 
     }
 
     

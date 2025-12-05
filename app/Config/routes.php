@@ -11,7 +11,7 @@ return function (RouteCollector $r) {
     // GET /associados (Listagem)
     $r->addRoute('GET', '/associados', 'AssociadoController@index');
 
-    // GET /associados/novo (Formulário de Criação)
+    // GET /associados/novo (Visualizar Formulário de Criação)
     $r->addRoute('GET', '/associados/novo', 'AssociadoController@create');
 
     // POST /associados (Salvar Novo Associado)
@@ -20,7 +20,10 @@ return function (RouteCollector $r) {
     // GET /associados/editar/{id} (Visualizar Formulário de Edição)
     $r->addRoute('GET', '/associados/editar/{id}', 'AssociadoController@edit'); 
 
-    // POST /associados/atualizar -> Recebe os dados do formulário (MÉTODO: update)
+    // POST /associados/atualizar (Editar Associado)
     $r->addRoute('PUT', '/associados/atualizar/{id}', 'AssociadoController@update');
-    
+
+    // DELETE /associados/{id} (Excluir Associado)
+    $r->addRoute('DELETE', '/associados/{id}', 'AssociadoController@destroy');
+
 };

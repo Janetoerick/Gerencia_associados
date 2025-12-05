@@ -136,6 +136,24 @@ class AssociadoModel
         }
     }
 
+    /**
+    * Exclui um associado pelo ID.
+    */
+    public function delete(int $id)
+    {
+        $sql = "DELETE FROM associado WHERE id = :id";
+
+        try {
+            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+            
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            error_log("Erro SQL ao deletar associado: " . $e->getMessage());
+            return false;
+        }
+    }
+
     /*
      * Verifica se os dados passados são válidos
      */
