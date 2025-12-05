@@ -31,12 +31,13 @@ class CobrancaController
     {
         $associadoId = $id;
 
-        // 1. Usa o MODEL DE ASSOCIADO para buscar o NOME
+        // busca o NOME
         $associado = $this->associadoModel->getById($associadoId); 
         
-        // 2. Usa o MODEL DE COBRANÇA para buscar a LISTA
+        // busca a LISTA de cobranças
         $cobrancas = $this->model->findByAssociadoId($associadoId); 
 
+        // busca o valor total em cobranças do associado
         $total = $this->model->valorTotalAssociadoId($associadoId);
         
         // 3. Renderiza a View com ambos os dados
@@ -44,8 +45,84 @@ class CobrancaController
             'associado' => $associado, 
             'cobrancas' => $cobrancas,
             'total' => $total,
-            'titulo' => "Cobranças de " . $associado['nome']
+            'titulo' => 'Cobranças de ' . $associado['nome']
         ]);
+    }
+
+    /**
+     * Exibe o formulário para criar uma nova cobrança manual para um associado.
+     * rota GET /associados/{id}/cobrancas/novo
+     */
+    public function create(int $id)
+    {
+        
+        $associado = $this->associadoModel->getById($id);
+
+        $dados = [
+            'associado' => $associado,
+            'ano_corrente' => date('Y'),
+            'titulo' => 'Adicionar cobrança - ' . $associado['nome']
+        ];
+        $this->view->render('cobrancas/create', $dados);
+    }
+
+    /**
+     * Processa a criação de uma nova cobrança.
+     * rota POST /associados/cobrancas
+     */
+    public function store()
+    {
+
+        $associadoId = (int)($_POST['associado_id'] ?? 0);
+        $ano = (int)($_POST['ano_referencia'] ?? 0);
+
+        // Validação Básica
+        if ($associadoId <= 0 || $ano <= 0) {
+            $_SESSION['msg_erro'] = "Dados insuficientes ou inválidos para criar a cobrança.";
+            header("Location: /associados/{$associadoId}/cobrancas/novo");
+            exit();
+        }
+
+        $valor = $this->anuidadeModel->getValorByAno($ano);
+
+        // Validação se o ano tem registro para anuidade
+        if (empty($valor)) {
+            $_SESSION['msg_erro'] = "Ano de referência não criado para anuidade.";
+            header("Location: /associados/{$associadoId}/cobrancas/novo");
+            exit();
+        }
+
+        $has_cobranca = $this->model->verifyAssociadoIdHasAno($associadoId, $ano);
+
+
+        if ($has_cobranca) {
+            $_SESSION['msg_erro'] = "Associado já tem cobrança no ano $ano";
+            header("Location: /associados/{$associadoId}/cobrancas/novo");
+            exit();
+        }
+        
+        // Monta o array de dados
+        $cobrancaData = [
+            'Associado_id' => $associadoId,
+            'Anuidade_ano' => $ano,
+            'valor_cobrado' => $valor
+        ];
+        
+        // Tenta criar a cobrança
+        try {
+            if ($this->model->createCobranca($cobrancaData)) {
+                $_SESSION['msg_sucesso'] = "Cobrança criada com sucesso para o Associado (Ano {$ano})!";
+            } else {
+                $_SESSION['msg_erro'] = "Erro ao criar cobrança manual no Model.";
+            }
+        } catch (\Exception $e) {
+            // Se o Model lançar uma exceção (erro SQL), capturamos a mensagem
+            $_SESSION['msg_erro'] = "Erro Fatal no SQL: " . $e->getMessage();
+        }
+        
+        // Redirecionamento
+        header("Location: /associados/{$associadoId}/cobrancas"); 
+        exit();
     }
 
 }

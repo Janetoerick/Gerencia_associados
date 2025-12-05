@@ -11,12 +11,14 @@ return function (RouteCollector $r) {
     // GET /associados (Listagem)
     $r->addRoute('GET', '/associados', 'AssociadoController@index');
 
+    // Exibir formulário de criação
     // GET /associados/novo (Visualizar Formulário de Criação de Associado)
     $r->addRoute('GET', '/associados/novo', 'AssociadoController@create');
 
     // POST /associados (Salvar Novo Associado)
     $r->addRoute('POST', '/associados', 'AssociadoController@store');
 
+    // Exibir formulário de edição
     // GET /associados/editar/{id} (Visualizar Formulário de Edição de Associado)
     $r->addRoute('GET', '/associados/editar/{id}', 'AssociadoController@edit'); 
 
@@ -38,6 +40,7 @@ return function (RouteCollector $r) {
     // POST /anuidades (Salvar Nova Anuidade)
     $r->addRoute('POST', '/anuidades', 'AnuidadeController@store');
 
+    // Exibir formulário de edição
     // GET /anuidades/{ano}/editar (Visualizar Formulário de Edição de Anuidade)
     $r->addRoute('GET', '/anuidades/{ano}/editar', 'AnuidadeController@edit');
 
@@ -50,4 +53,11 @@ return function (RouteCollector $r) {
     // Rota Cobranca |----------------------------------------------------------------------------------
     // GET /associados/{id}/cobrancas (Listagem)
     $r->addRoute('GET', '/associados/{id}/cobrancas', 'CobrancaController@index');
+
+    // Exibir formulário de criação
+    // GET /anuidades/nova (Visualizar Formulário de Criação de cobrança)
+    $r->addRoute('GET', '/associados/{id}/cobrancas/novo', 'CobrancaController@create');
+
+    // Processar o formulário de nova cobrança
+    $r->addRoute('POST', '/associados/cobrancas', 'CobrancaController@store');
 };

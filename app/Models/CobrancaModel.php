@@ -117,4 +117,27 @@ class CobrancaModel
         }
     }
 
+    /**
+    * Verifica se o associado já tem cobranca no ano.
+    */
+    public function verifyAssociadoIdHasAno(int $associadoId, int $ano)
+    {
+        $sql = "SELECT COUNT(*) FROM cobranca WHERE Associado_id = :associado_id AND Anuidade_ano = :ano";
+        
+        try {
+            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt->bindParam(':associado_id', $associadoId, \PDO::PARAM_INT);
+            $stmt->bindParam(':ano', $ano, \PDO::PARAM_INT);
+            $stmt->execute();
+            
+            $count = $stmt->fetchColumn();
+            
+            // Retorna true se a contagem for maior que zero
+            return $count > 0;
+            
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
 }
