@@ -1,3 +1,19 @@
+<?php
+function formatar_cpf(string $cpf_limpo): string {
+    if (strlen($cpf_limpo) !== 11 || !is_numeric($cpf_limpo)) {
+        return $cpf_limpo; // Retorna o valor bruto se for inválido
+    }
+    return substr($cpf_limpo, 0, 3) . '.' .
+           substr($cpf_limpo, 3, 3) . '.' .
+           substr($cpf_limpo, 6, 3) . '-' .
+           substr($cpf_limpo, 9, 2);
+}
+
+?>
+
+
+<a href="/associados/novo" style="margin-bottom: 20px;">+ Novo Associado</a>
+
 <table>
         <thead>
             <tr>
@@ -6,7 +22,6 @@
                 <th>E-mail</th>
                 <th>CPF</th>
                 <th>Filiação</th>
-                <th>Status Cobrança</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -23,31 +38,6 @@
                         <td><?= htmlspecialchars($associado['email']) ?></td>
                         <td><?= formatar_cpf(htmlspecialchars($associado['cpf'])) ?></td>
                         <td><?= htmlspecialchars($associado['data_filiacao']) ?></td>
-                        
-                        <td>
-                            <?php 
-                                $pendencias = (int)$associado['total_pendencias'];
-                                
-                                if ($pendencias > 0) {
-                                    $cor = 'red';
-                                    $status_texto = 'Em Débito (' . $pendencias . ')';
-                                } else {
-                                    $cor = 'green';
-                                    $status_texto = 'Em Dia';
-                                }
-                            ?>
-                            <div style="
-                                width: 15px; 
-                                height: 15px; 
-                                background-color: <?= $cor ?>; 
-                                border: 1px solid #333; 
-                                border-radius: 3px;
-                                display: inline-block;
-                                margin-right: 5px;
-                                vertical-align: middle;
-                            "></div>
-                            <?= htmlspecialchars($status_texto) ?>
-                        </td>
 
                         <td class="action-column"> 
                             <a href="/associados/editar/<?= htmlspecialchars($associado['id']) ?>" class="btn btn-edit">Editar</a>
