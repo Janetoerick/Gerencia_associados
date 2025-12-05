@@ -32,4 +32,19 @@ class AnuidadeModel
         }
     }
 
+    /**
+     * Lista todos os valores de anuidade cadastrados.
+     */
+    public function findAll()
+    {
+        $sql = "SELECT * FROM anuidade ORDER BY ano DESC";
+        try {
+            $stmt = $this->db->getConnection()->query($sql);
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            error_log("Erro ao listar anuidades: " . $e->getMessage());
+            return [];
+        }
+    }
+
 }

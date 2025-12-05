@@ -23,7 +23,10 @@ class AssociadoController {
         $this->view = new View(); 
     }
 
-    // rota GET '/associados'
+    /**
+    * View para listar associados.
+    * rota GET '/associados'
+    */
     public function index() {
         // Busca os dados usando o Model
         $associados = $this->model->getAll();
@@ -36,7 +39,7 @@ class AssociadoController {
     }
 
     /**
-    * View para criar associado
+    * View para criar associado.
     * rota GET '/associados/novo'
     */
     public function create() {
@@ -152,7 +155,7 @@ class AssociadoController {
     }
 
     /**
-    * View para editar associado
+    * View para editar associado.
     * rota GET /associados/editar/{id}
     */
     public function edit(int $id) 

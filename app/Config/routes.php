@@ -26,4 +26,9 @@ return function (RouteCollector $r) {
     // DELETE /associados/{id} (Excluir Associado)
     $r->addRoute('DELETE', '/associados/{id}', 'AssociadoController@destroy');
 
+    
+    // Rota Anuidade |----------------------------------------------------------------------------------
+    // GET /anuidades (Listagem)
+    $r->addRoute('GET', '/anuidades', 'AnuidadeController@index');
+
 };
