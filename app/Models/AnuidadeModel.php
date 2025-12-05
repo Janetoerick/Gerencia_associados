@@ -78,4 +78,22 @@ class AnuidadeModel
         }
     }
 
+    /**
+    * Exclui um valor de anuidade pelo ano.
+    */
+    public function delete(int $ano)
+    {
+        $sql = "DELETE FROM anuidade WHERE ano = :ano";
+        
+        try {
+            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt->bindParam(':ano', $ano, \PDO::PARAM_INT);
+            
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            error_log("Erro ao excluir anuidade: " . $e->getMessage());
+            return false;
+        }
+    }
+
 }

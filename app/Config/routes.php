@@ -44,4 +44,6 @@ return function (RouteCollector $r) {
     // PUT /anuidades/{ano}/update (Editar Anuidade)
     $r->addRoute('PUT', '/anuidades/{ano:\d+}/update', 'AnuidadeController@update');
 
+    // DELETE /anuidades/{ano}/delete (Excluir Anuidade)
+    $r->addRoute('DELETE', '/anuidades/{ano:\d+}/delete', 'AnuidadeController@destroy');
 };

@@ -137,4 +137,20 @@ class AnuidadeController
         }
     }
 
+    /**
+     * Processa a exclusão de uma anuidade.
+     * Rota: POST /anuidades/{ano}/delete (Simulando DELETE)
+     */
+    public function destroy(int $ano)
+    {
+        if ($this->model->delete($ano)) {
+            $_SESSION['msg_sucesso'] = "Anuidade para o ano {$ano} excluída com sucesso!";
+        } else {
+            $_SESSION['msg_erro'] = "Erro ao excluir. Verifique se há cobranças ativas vinculadas a este ano.";
+        }
+
+        header("Location: /anuidades");
+        exit();
+    }
+
 }
