@@ -11,13 +11,13 @@ return function (RouteCollector $r) {
     // GET /associados (Listagem)
     $r->addRoute('GET', '/associados', 'AssociadoController@index');
 
-    // GET /associados/novo (Visualizar Formulário de Criação)
+    // GET /associados/novo (Visualizar Formulário de Criação de Associado)
     $r->addRoute('GET', '/associados/novo', 'AssociadoController@create');
 
     // POST /associados (Salvar Novo Associado)
     $r->addRoute('POST', '/associados', 'AssociadoController@store');
 
-    // GET /associados/editar/{id} (Visualizar Formulário de Edição)
+    // GET /associados/editar/{id} (Visualizar Formulário de Edição de Associado)
     $r->addRoute('GET', '/associados/editar/{id}', 'AssociadoController@edit'); 
 
     // POST /associados/atualizar (Editar Associado)
@@ -26,9 +26,16 @@ return function (RouteCollector $r) {
     // DELETE /associados/{id} (Excluir Associado)
     $r->addRoute('DELETE', '/associados/{id}', 'AssociadoController@destroy');
 
-    
+
     // Rota Anuidade |----------------------------------------------------------------------------------
     // GET /anuidades (Listagem)
     $r->addRoute('GET', '/anuidades', 'AnuidadeController@index');
+
+    // Exibir formulário de criação
+    // GET /anuidades/nova (Visualizar Formulário de Criação de Anuidade)
+    $r->addRoute('GET', '/anuidades/nova', 'AnuidadeController@create');
+    
+    // POST /anuidades (Salvar Nova Anuidade)
+    $r->addRoute('POST', '/anuidades', 'AnuidadeController@store');
 
 };

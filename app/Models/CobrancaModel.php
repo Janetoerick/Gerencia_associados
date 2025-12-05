@@ -39,4 +39,32 @@ class CobrancaModel
         }
     }
 
+    /**
+    * Faz a ligação da cobrança com todos os associados.
+    * Return: O número de associados que foram cobrados.
+    */
+    public function gerarCobrancaEmMassa(int $ano, float $valor): int 
+    {
+        
+        $associadoModel = new \App\Models\AssociadoModel();
+        $associados = $associadoModel->getAll();
+
+        $count = 0;
+        
+        // Itera sobre os IDs e cria a cobrança
+        foreach ($associados as $associado) {
+            $cobrancaData = [
+                'Associado_id' => $associado['id'],
+                'Anuidade_ano' => $ano,
+                'valor_cobrado' => $valor
+            ];
+
+            if ($this->createCobranca($cobrancaData)) { 
+                $count++;
+            }
+        }
+
+        return $count;
+    }
+
 }

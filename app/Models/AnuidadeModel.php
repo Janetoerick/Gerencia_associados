@@ -47,4 +47,35 @@ class AnuidadeModel
         }
     }
 
+    /**
+     * Salva ou atualiza um valor de anuidade.
+     * Usa REPLACE INTO ou lógica de INSERT OR UPDATE.
+     * Como 'ano' é a PRIMARY KEY, o INSERT OR UPDATE é mais robusto.
+     */
+    public function save(array $data)
+    {
+        // O método salva o registro. Se o ano já existir, ele atualiza o valor.
+        $sql = "INSERT INTO anuidade (ano, valor) 
+                VALUES (:ano, :valor)
+                ON DUPLICATE KEY UPDATE valor = :valor";
+
+        // Validação simples
+        if (!is_numeric($data['ano']) || !is_numeric($data['valor']) || $data['ano'] < 1900) {
+            return false;
+        }
+
+        $valorNumerico = number_format((float)$data['valor'], 2, '.', ''); // Garante 2 casas decimais
+
+        try {
+            $stmt = $this->db->getConnection()->prepare($sql);
+            $stmt->bindParam(':ano', $data['ano'], \PDO::PARAM_INT);
+            $stmt->bindParam(':valor', $valorNumerico);
+            
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            error_log("Erro ao salvar anuidade: " . $e->getMessage());
+            return false;
+        }
+    }
+
 }
