@@ -14,6 +14,29 @@ class AssociadoModel
     }
 
     /**
+     * Busca um único associado pelo ID.
+     */
+    public function getById(int $id)
+    {
+        try {
+            // CORREÇÃO AQUI: Tabela 'associado' (minúscula)
+            $sql = "SELECT * FROM associado WHERE id = :id";
+            
+            $stmt = $this->db->getConnection()->prepare($sql);
+            
+            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+            
+            $stmt->execute();
+            
+            return $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        } catch (\PDOException $e) {
+            echo "Erro ao buscar associado (ID: {$id}): " . $e->getMessage();
+            return null; 
+        }
+    }
+
+    /**
      * Busca todos os associados no banco de dados.
     */
     public function getAll()
@@ -61,7 +84,7 @@ class AssociadoModel
             $errorCode = $e->getCode();
             $errorMessage = $e->getMessage();
             
-            // Verifica se é um erro de unicidade (código SQL 23000)
+            // Verifica se é um erro de unicidade
             if ($errorCode === '23000') {
                 // Unicidade de CPF
                 if (strpos($errorMessage, 'cpf_UNIQUE') !== false) {
@@ -74,6 +97,41 @@ class AssociadoModel
             }
             
             error_log("Erro SQL ao inserir associado: " . $errorMessage);
+            return false;
+        }
+    }
+
+    /*
+     * Atualiza os dados de um associado a partir do ID.
+     */
+    public function update(int $id, array $data)
+    {
+        $erros = $this->verify_data($data);
+        if (!empty($erros)) {
+            return $erros;
+        }
+
+        $cpf_limpo = $this->clean_numeric_data($data['cpf']); 
+
+        $sql = "UPDATE associado SET 
+                    nome = :nome, 
+                    email = :email, 
+                    cpf = :cpf_limpo, 
+                    data_filiacao = :data_filiacao
+                WHERE id = :id";
+        
+        try {
+            $stmt = $this->db->getConnection()->prepare($sql);
+
+            $stmt->bindParam(':nome', $data['nome']);
+            $stmt->bindParam(':email', $data['email']);
+            $stmt->bindParam(':cpf_limpo', $cpf_limpo); 
+            $stmt->bindParam(':data_filiacao', $data['data_filiacao']); 
+            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+            
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            error_log("Erro SQL de Atualização: " . $e->getMessage()); 
             return false;
         }
     }

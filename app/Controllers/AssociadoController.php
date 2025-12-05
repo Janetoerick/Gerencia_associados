@@ -151,5 +151,47 @@ class AssociadoController {
         }
     }
 
+    /**
+    * View para editar associado
+    * rota GET /associados/editar/{id}
+    */
+    public function edit(int $id) 
+    {
+        $associado = $this->model->getById($id); 
+
+        if (!$associado) {
+            header('Location: /associados'); // Redireciona se não existir
+            return;
+        }
+
+        $this->view->render('associados/edit', ['associado' => $associado], 'form_layout');
+    }
+
+    /**
+    * Processa a atualização de um associado.
+    * rota POST /associados
+    */
+    public function update($id)
+    {
+        
+        // Coleta e limpa os dados do formulário
+        $dados = [
+            'nome' => trim($_POST['nome'] ?? ''),
+            'email' => trim($_POST['email'] ?? ''),
+            'cpf' => trim($_POST['cpf'] ?? ''),
+            'data_filiacao' => trim($_POST['data_filiacao'] ??date('Y-m-d')),
+        ];
+        
+        $resultado = $this->model->update($id, $dados); 
+
+        if (is_array($resultado)) {
+            $_SESSION['msg_erro'] = "Erro ao salvar o associado no banco de dados. CPF ou E-mail já em uso.";
+            header("Location: /associados/editar/{$id}");
+            return;
+        }
+        
+        header('Location: /associados');
+    }
+
     
 }
