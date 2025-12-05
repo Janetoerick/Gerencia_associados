@@ -42,7 +42,9 @@ class AssociadoModel
     public function getAll()
     {
         try {
-            $sql = "SELECT * FROM associado ;";
+            $sql = "SELECT a.*, 
+                SUM(CASE WHEN c.pago = 0 THEN 1 ELSE 0 END) AS total_pendencias 
+                FROM associado AS a INNER JOIN cobranca AS c ON a.id = c.Associado_id GROUP BY a.id;";
             $stmt = $this->db->getConnection()->prepare($sql);
             $stmt->execute();
             

@@ -1,9 +1,9 @@
-<div> 
+<div class="container form-small-width"> 
     
     <h2>Cadastrar Nova Anuidade</h2>
 
     <?php if (isset($_SESSION['msg_erro'])): ?>
-        <div><?= htmlspecialchars($_SESSION['msg_erro']) ?></div>
+        <div class="message-box error-message"><?= htmlspecialchars($_SESSION['msg_erro']) ?></div>
         <?php unset($_SESSION['msg_erro']); ?>
     <?php endif; ?>
 
@@ -14,7 +14,8 @@
             type="number" 
             name="ano" 
             id="ano" 
-            value="<?= date('Y') + 1 ?>"
+            value="<?= date('Y') + 1 ?>" 
+            min="<?= date('Y') ?>" 
             required 
             placeholder="Ex: 2026"
         >
@@ -33,7 +34,7 @@
         
         <hr style="margin: 30px 0;">
         
-        <div>
+        <div class="checkbox-line">
             <input 
                 type="checkbox" 
                 name="gerar_cobranca" 
@@ -42,13 +43,13 @@
                 checked 
             >
             <label for="gerar_cobrancas_massa" style="margin-top: 0; font-weight: normal;">
-                Gerar automaticamente as cobranças desta anuidade para **todos os associados ativos** no sistema.
+                Gerar automaticamente as cobranças desta anuidade para <b>todos os associados ativos</b> no sistema.
             </label>
         </div>
 
-        <div>
-            <button type="submit" style="width: 100%;">Cadastrar Anuidade</button>
-            <a href="/anuidades" style="width: 100%;">
+        <div class="btn-stack">
+            <button type="submit" class="btn btn-new" style="width: 100%;">Cadastrar Anuidade</button>
+            <a href="/anuidades" class="btn btn-secondary"style="width: 100%;">
                 Cancelar
             </a>
         </div>

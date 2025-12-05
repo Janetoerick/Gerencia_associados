@@ -1,14 +1,15 @@
 <?php
+// O objeto $anuidade deve ser passado do Controller
 $ano_atual = htmlspecialchars((string)($ano ?? ''));
 $valor_atual = htmlspecialchars((string)($valor ?? ''));
 ?>
 
-<div>
+<div class="container form-small-width">
     
     <h2>Editar Anuidade: Ano <?= htmlspecialchars($ano_atual) ?></h2>
 
     <?php if (isset($_SESSION['msg_erro'])): ?>
-        <div><?= htmlspecialchars($_SESSION['msg_erro']) ?></div>
+        <div class="message-box error-message"><?= htmlspecialchars($_SESSION['msg_erro']) ?></div>
         <?php unset($_SESSION['msg_erro']); ?>
     <?php endif; ?>
 
@@ -31,11 +32,11 @@ $valor_atual = htmlspecialchars((string)($valor ?? ''));
             placeholder="Ex: 150.00"
         >
 
-        <div>
+        <div class="btn-stack">
             
-            <button type="submit" style="width: 100%;">Atualizar Anuidade</button>
+            <button type="submit" class="btn btn-edit" style="width: 100%;">Atualizar Anuidade</button>
             
-            <a href="/anuidades" style="width: 100%;">Cancelar</a>
+            <a href="/anuidades" class="btn btn-secondary" style="width: 100%;">Cancelar</a>
         </div>
 
     </form>

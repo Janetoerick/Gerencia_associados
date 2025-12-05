@@ -1,4 +1,5 @@
-
+<div class="container form-small-width"> 
+    
     <h2>Cadastrar Novo Associado</h2>
 
     <?php if (isset($_SESSION['msg_erro'])): ?>
@@ -51,11 +52,12 @@
         
         <hr style="margin: 30px 0;">
 
-        <div>
+        <div class="btn-stack">
             
-            <button type="submit" style="width: 100%;">Cadastrar Associado</button>
+            <button type="submit" class="btn btn-new" style="width: 100%;">Cadastrar Associado</button>
             
-            <a href="/associados" style="width: 100%;">Cancelar</a>
+            <a href="/associados" class="btn btn-secondary" style="width: 100%;">Cancelar</a>
         </div>
 
     </form>
+</div>

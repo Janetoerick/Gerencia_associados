@@ -24,7 +24,10 @@ class AnuidadeController
     {
         $anuidades = $this->model->findAll();
         
-        $this->view->render('anuidades/index', ['anuidades' => $anuidades]);
+        $this->view->render('anuidades/index', [
+            'titulo' => 'Lista de Anuidades',
+            'anuidades' => $anuidades
+        ]);
     }
 
     /**
@@ -35,7 +38,8 @@ class AnuidadeController
     {
 
         $dados = [
-            'ano_sugerido' => date('Y') + 1
+            'ano_sugerido' => date('Y') + 1,
+            'titulo' => 'Criar Anuidade'
         ];
 
         $this->view->render('anuidades/create', $dados);
@@ -105,7 +109,11 @@ class AnuidadeController
         }
 
         // Renderiza a view de edição com os dados da anuidade
-        $this->view->render('anuidades/edit', ['valor' => $valor, 'ano' => $ano], 'form_layout');
+        $this->view->render('anuidades/edit', [
+            'valor' => $valor, 
+            'ano' => $ano,
+            'titulo' => 'Editar Anuidade'
+        ], 'form_layout');
     }
 
     /**

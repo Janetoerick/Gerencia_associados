@@ -6,6 +6,25 @@ namespace App\Core;
 class View
 {
 
+    protected array $cssAssets = [];
+    protected array $jsAssets = [];
+
+    public function addCss(string $path): void
+    {
+        // Garante que o CSS é adicionado apenas uma vez
+        if (!in_array($path, $this->cssAssets)) {
+            $this->cssAssets[] = $path;
+        }
+    }
+
+    public function addJs(string $path): void
+    {
+        // Garante que o CSS é adicionado apenas uma vez
+        if (!in_array($path, $this->jsAssets)) {
+            $this->jsAssets[] = $path;
+        }
+    }
+
     /**
     * Renderiza a View.
     */

@@ -1,0 +1,57 @@
+.home-layout {
+    display: flex;
+    flex-direction: column; /* Empilha os elementos verticalmente */
+    align-items: center; /* Centraliza horizontalmente o conteúdo */
+    min-height: 70vh; 
+    justify-content: space-around; 
+    padding: 50px 20px;
+}
+
+.main-title {
+    font-size: 2.8em;
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.main-buttons {
+    display: flex;
+    gap: 40px; /* Espaço entre os botões */
+    margin: auto; /* Garante que o bloco de botões seja centralizado verticalmente */
+    flex-wrap: wrap; /* Permite que os botões quebrem a linha em telas menores */
+    justify-content: center;
+}
+
+/* Tamanho e Estilo dos Botões Grandes */
+.btn-large {
+    padding: 35px 70px;
+    font-size: 1.5em;
+    min-width: 280px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+}
+
+/* Cores e Hover */
+.btn-associados {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-anuidades {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-large:hover {
+    transform: translateY(-3px);
+}
+
+.btn-associados:hover {
+    background-color: #0056b3;
+}
+
+.btn-anuidades:hover {
+    background-color: #1e7e34;
+}

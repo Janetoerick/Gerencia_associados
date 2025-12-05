@@ -1,11 +1,11 @@
-<div>
+<div class="container">
     
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
         <h2>Gestão de Anuidades</h2>
-        <a href="/" style="background-color: #6c757d; color: white;">Início</a>
+        <a href="/" class="btn" style="background-color: #6c757d; color: white;">Início</a>
     </div>
     
-    <a href="/anuidades/nova" style="margin-bottom: 20px;">+ Cadastrar Nova Anuidade</a>
+    <a href="/anuidades/nova" class="btn btn-new" style="margin-bottom: 20px;">+ Cadastrar Nova Anuidade</a>
     
     <?php if (isset($_SESSION['msg_sucesso'])): ?>
         <div class="message-box success-message"><?= htmlspecialchars($_SESSION['msg_sucesso']) ?></div>
@@ -23,7 +23,7 @@
                 <th>Ano</th>
                 <th>Valor (R$)</th>
                 <th>Status</th> 
-                <th style="width: 150px;">Ações</th>
+                <th class="action-column" style="width: 150px;">Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -39,6 +39,7 @@
                         
                         <td>
                             <?php 
+                            // Exemplo de lógica para status da anuidade
                             if ((int)$anuidade['ano'] > date('Y')) {
                                 echo '<span style="color: #007bff; font-weight: bold;">Futura</span>';
                             } else {

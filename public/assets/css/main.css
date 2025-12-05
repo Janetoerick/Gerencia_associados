@@ -1,0 +1,253 @@
+/* ================================================= */
+/* 1. Reset Básico e Estilos Globais */
+/* ================================================= */
+
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh; 
+    height: auto; 
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: #007bff;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+
+.content-wrapper {
+    flex-grow: 1; 
+}
+
+footer {
+    flex-shrink: 0; 
+    
+    background-color: #343a40;
+    color: #f8f9fa;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.container h2 {
+    text-align: center;
+    width: 100%;
+}
+
+h2 {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* ================================================= */
+/* 2. Mensagens de Feedback (Sucesso/Erro) */
+/* ================================================= */
+
+.message-box {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    border: 1px solid transparent;
+}
+
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+}
+
+/* ================================================= */
+/* 3. Estilos de Tabela (Inclui Linhas Clicáveis) */
+/* ================================================= */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+table th, table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #007bff;
+    color: white;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.clickable-row {
+    cursor: pointer;
+}
+
+/* Efeito visual ao passar o mouse */
+.clickable-row:hover {
+    background-color: #e6f7ff; /* Cor clara para destacar */
+}
+
+/* Garante que o cursor volte ao normal na coluna de botões */
+.clickable-row .action-column {
+    cursor: default;
+}
+
+/* Estilo para a célula que contém os botões de Ação */
+td.action-column {
+
+    display: flex; 
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+}
+
+td.action-column form {
+    display: inline-block;
+    margin: 0;
+}
+
+table th.action-column, table td.action-column {
+    width: 150px;
+    text-align: right; 
+    justify-content: flex-end;
+}
+
+/* ================================================= */
+/* 4. Estilos de Botões */
+/* ================================================= */
+
+.btn {
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s;
+    text-align: center;
+    box-sizing: border-box;
+    line-height: 1.2; 
+    vertical-align: middle;
+}
+
+.btn-edit {
+    background-color: #ffc107;
+    color: #333;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-new {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-edit:hover { background-color: #e0a800; }
+.btn-delete:hover { background-color: #c82333; }
+.btn-new:hover { background-color: #218838; }
+
+.btn-secondary {
+    background-color: #6c757d; 
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+/* ================================================= */
+/* 5. Estilos de Formulário */
+/* ================================================= */
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="number"],
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.form-small-width {
+    max-width: 600px; /* Largura máxima reduzida para formulários */
+}
+
+.centered-form-wrapper {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente o item filho (.container) */
+    align-items: center; /* Centraliza verticalmente o item filho (.container) */
+    padding: 20px 0; 
+}
+
+/* Garante que o checkbox não pegue a largura total */
+.checkbox-line {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.checkbox-line input[type="checkbox"] {
+    width: auto; /* Deixa o checkbox pequeno */
+    margin-top: 5px;
+    margin-right: 10px;
+}
