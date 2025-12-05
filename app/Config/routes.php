@@ -20,7 +20,7 @@ return function (RouteCollector $r) {
     // GET /associados/editar/{id} (Visualizar Formulário de Edição de Associado)
     $r->addRoute('GET', '/associados/editar/{id}', 'AssociadoController@edit'); 
 
-    // POST /associados/atualizar (Editar Associado)
+    // PUT /associados/atualizar (Editar Associado)
     $r->addRoute('PUT', '/associados/atualizar/{id}', 'AssociadoController@update');
 
     // DELETE /associados/{id} (Excluir Associado)
@@ -37,5 +37,11 @@ return function (RouteCollector $r) {
     
     // POST /anuidades (Salvar Nova Anuidade)
     $r->addRoute('POST', '/anuidades', 'AnuidadeController@store');
+
+    // GET /anuidades/{ano}/editar (Visualizar Formulário de Edição de Anuidade)
+    $r->addRoute('GET', '/anuidades/{ano:\d+}/editar', 'AnuidadeController@edit');
+
+    // PUT /anuidades/{ano}/update (Editar Anuidade)
+    $r->addRoute('PUT', '/anuidades/{ano:\d+}/update', 'AnuidadeController@update');
 
 };

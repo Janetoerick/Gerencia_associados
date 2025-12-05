@@ -90,4 +90,51 @@ class AnuidadeController
         }
     }
 
+    /**
+     * Exibe o formulário de edição para um ano específico.
+     * rota GET /anuidades/{ano}/editar
+     */
+    public function edit(int $ano)
+    {
+        $valor = $this->model->getValorByAno($ano);
+
+        if (!$valor) {
+            $_SESSION['msg_erro'] = "Anuidade não encontrada.";
+            header("Location: /anuidades");
+            exit();
+        }
+
+        // Renderiza a view de edição com os dados da anuidade
+        $this->view->render('anuidades/edit', ['valor' => $valor, 'ano' => $ano], 'form_layout');
+    }
+
+    /**
+     * Processa a atualização do valor de uma anuidade.
+     * rota POST /anuidades/{ano}/update
+     */
+    public function update(int $ano)
+    {
+        
+        $data = [
+            'ano' => $ano,
+            'valor' => trim(str_replace(',', '.', $_POST['valor'] ?? '')),
+        ];
+
+        if (empty($data['valor']) || !is_numeric($data['valor'])) {
+            $_SESSION['msg_erro'] = "Valor é obrigatório e deve ser numérico.";
+            header("Location: /anuidades/{$ano}/editar");
+            exit();
+        }
+
+        if ($this->model->save($data)) {
+            $_SESSION['msg_sucesso'] = "Anuidade para o ano {$ano} atualizada com sucesso!";
+            header("Location: /anuidades");
+            exit();
+        } else {
+            $_SESSION['msg_erro'] = "Erro ao atualizar anuidade.";
+            header("Location: /anuidades/{$ano}/editar");
+            exit();
+        }
+    }
+
 }
