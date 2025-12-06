@@ -63,7 +63,7 @@ class CobrancaController
             'ano_corrente' => date('Y'),
             'titulo' => 'Adicionar cobrança - ' . $associado['nome']
         ];
-        $this->view->render('cobrancas/create', $dados);
+        $this->view->render('cobrancas/create', $dados, 'form_layout');
     }
 
     /**
