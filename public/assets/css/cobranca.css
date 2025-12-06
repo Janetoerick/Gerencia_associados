@@ -1,0 +1,47 @@
+.header {
+    display: flex; 
+    justify-content: 
+    space-between; 
+    align-items: center; 
+    margin-bottom: 20px;
+}
+
+.total_dividas {
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px; 
+    padding: 15px; 
+    border: 1px solid #ccc; 
+    background-color: #f9f9f9;
+}
+
+.total_dividas p{
+    margin: 0; 
+    font-size: 1.1em;
+}
+
+.total_dividas p span {
+    color: red; 
+    font-weight: bold;
+}
+
+.btn-pagar-tudo {
+    background-color: #dc3545;
+    color: white; 
+    border: none; 
+    padding: 10px 15px; 
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.status_pago {
+    color: green; 
+    font-weight: bold;
+}
+
+.status_pendente {
+    color: red; 
+    font-weight: bold;
+}

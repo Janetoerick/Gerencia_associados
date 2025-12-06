@@ -61,6 +61,10 @@ return function (RouteCollector $r) {
     // POST /associados/cobrancas (Salva nova cobrança para o associado)
     $r->addRoute('POST', '/associados/cobrancas', 'CobrancaController@store');
 
-    // POST /cobrancas/{id}/pagar (Realiza pagamento de uma cobrança)
-    $r->addRoute('POST', '/cobrancas/{id}/pagar', 'CobrancaController@pagar');
+    // PUT /cobrancas/{id}/pagar (Realiza pagamento de uma cobrança)
+    $r->addRoute('PUT', '/cobrancas/{id}/pagar', 'CobrancaController@registrarPagamento');
+
+    // POST /associados/{id}/cobrancas/pagar_tudo (Realiza pagamento de uma cobrança)
+    $r->addRoute('POST', '/associados/{id}/cobrancas/pagar_tudo', 'CobrancaController@registrarPagamentoTotal');
+
 };

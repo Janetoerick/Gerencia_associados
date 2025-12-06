@@ -127,9 +127,9 @@ class CobrancaController
 
     /**
      * Processa o pagamento de uma cobrança
-     * rota POST /cobrancas/{id}/pagar
+     * rota PUT /cobrancas/{id}/pagar
      */
-    public function pagar(int $id)
+    public function registrarPagamento(int $id)
     {
         $cobrancaId = $id;
         $associadoId = (int)($_POST['associado_id'] ?? 0);
@@ -141,6 +141,30 @@ class CobrancaController
         }
 
         if ($this->model->registrarPagamento($cobrancaId)) {
+            $_SESSION['msg_sucesso'] = "Cobrança paga com sucesso!";
+        } else {
+            $_SESSION['msg_erro'] = "Erro no pagamento!";
+        }
+        header("Location: /associados/{$associadoId}/cobrancas"); 
+        exit();
+
+    }
+
+    /**
+     * Processa o pagamento de uma cobrança
+     * rota POST /associados/{id}/cobrancas/pagar_tudo
+     */
+    public function registrarPagamentoTotal(int $id)
+    {
+        $associadoId = $id;
+
+        if ($associadoId <= 0) {
+            $_SESSION['msg_erro'] = "ID da cobrança inválido na URL.";
+            header("Location: /associados"); 
+            exit();
+        }
+
+        if ($this->model->registrarTodosPagamentos($associadoId)) {
             $_SESSION['msg_sucesso'] = "Cobrança paga com sucesso!";
         } else {
             $_SESSION['msg_erro'] = "Erro no pagamento!";

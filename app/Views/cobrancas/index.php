@@ -3,11 +3,14 @@
 $associado = $associado ?? ['nome' => 'Desconhecido', 'id' => 0];
 $cobrancas = $cobrancas ?? [];
 $total = $total ?? 0.00; // Total de dívidas em aberto
+
+$this->addCss('/assets/css/cobranca.css');
+
 ?>
 
 <div class="container content-wrapper">
     
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div class="header">
         <h2>Cobranças de: <?= htmlspecialchars($associado['nome']) ?></h2>
         <a href="/associados" class="btn btn-secondary">Voltar</a>
     </div>
@@ -15,10 +18,10 @@ $total = $total ?? 0.00; // Total de dívidas em aberto
     <a 
         href="/associados/<?= htmlspecialchars($associado['id']) ?>/cobrancas/novo" 
         class="btn btn-new" 
-        style="margin-bottom: 20px;"
     >
         + Gerar Nova Cobrança
     </a>
+    <br><br>
     
     <?php if (isset($_SESSION['msg_sucesso'])): ?>
         <div class="message-box success-message"><?= htmlspecialchars($_SESSION['msg_sucesso']) ?></div>
@@ -30,12 +33,30 @@ $total = $total ?? 0.00; // Total de dívidas em aberto
         <?php unset($_SESSION['msg_erro']); ?>
     <?php endif; ?>
     
-    <p style="margin-top: 20px; padding: 15px; border: 1px solid #ccc; background-color: #f9f9f9; border-radius: 4px;">
-        Total de Dívidas em Aberto: 
-        <span style="color: red; font-weight: bold;">
-            R$ <?= number_format($total, 2, ',', '.') ?>
-        </span>
-    </p>
+    <div class="total_dividas">
+        <p>
+            Total de Dívidas em Aberto: 
+            <span>
+                R$ <?= number_format($total, 2, ',', '.') ?>
+            </span>
+        </p>
+
+        <?php 
+            // Lógica para exibir o botão apenas se houver dívida
+            if ($total > 0): 
+        ?>
+            <form action="/associados/<?= htmlspecialchars($associado['id']) ?>/cobrancas/pagar_tudo" method="POST">
+                
+                <button type="submit" class="btn-pagar-tudo"
+                onclick="return confirm('Tem certeza que deseja registrar o pagamento de TODAS as dívidas pendentes?');"
+                >
+                    Pagar tudo
+                </button>
+            </form>
+        <?php endif; ?>
+    </div>
+
+    
 
     <h3>Histórico de Cobranças</h3>
 
@@ -59,16 +80,17 @@ $total = $total ?? 0.00; // Total de dívidas em aberto
                         
                         <td>
                             <?php if ($cobranca['pago']): ?>
-                                <span style="color: green; font-weight: bold;">PAGO</span> 
+                                <span class="status_pago">PAGO</span> 
                                 (<?= date('d/m/Y', strtotime($cobranca['data_pagamento'] ?? '')) ?>)
                             <?php else: ?>
-                                <span style="color: red; font-weight: bold;">PENDENTE</span>
+                                <span class="status_pendente">PENDENTE</span>
                             <?php endif; ?>
                         </td>
                         
                         <td class="action-column">
                             <?php if (!$cobranca['pago']): ?>
-                                <form action="/cobrancas/<?= htmlspecialchars($cobranca['id']) ?>/pagar" method="POST" style="display:inline;">
+                                <form action="/cobrancas/<?= htmlspecialchars($cobranca['id']) ?>/pagar" method="POST">
+                                    <input type="hidden" name="_method" value="PUT"> 
                                     <input type="hidden" name="associado_id" value="<?= htmlspecialchars($associado['id']) ?>">
                                     <button type="submit" class="btn btn-new">Pagar</button>
                                 </form>

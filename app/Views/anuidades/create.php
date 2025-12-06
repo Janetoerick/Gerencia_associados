@@ -15,7 +15,6 @@
             name="ano" 
             id="ano" 
             value="<?= date('Y') + 1 ?>" 
-            min="<?= date('Y') ?>" 
             required 
             placeholder="Ex: 2026"
         >

@@ -167,4 +167,31 @@ class CobrancaModel
         }
     }
 
+    /**
+    * Registra o pagamento de todas as cobranças.
+    */
+    public function registrarTodosPagamentos(int $associadoId): bool
+    {
+        // Define a data de pagamento para a data atual
+        $dataPagamento = date('Y-m-d');
+        
+        $sql = "UPDATE cobranca 
+                SET pago = 1, data_pagamento = :dataPagamento 
+                WHERE Associado_id = :associadoId AND pago = 0";
+
+        try {
+            $stmt = $this->db->getConnection()->prepare($sql);
+            
+            $stmt->bindParam(':dataPagamento', $dataPagamento);
+            $stmt->bindParam(':associadoId', $associadoId, \PDO::PARAM_INT);
+            
+            // Executa a atualização e retorna o resultado (true/false)
+            return $stmt->execute();
+            
+        } catch (\PDOException $e) {
+            error_log("Erro SQL ao registrar os pagamentos do associado(ID: {$associadoId}): " . $e->getMessage());
+            return false;
+        }
+    }
+
 }
