@@ -38,9 +38,11 @@ Execute o comando a seguir. Ele fará a construção das imagens, a instalação
 docker-compose up -d --build
 ```
 
+**Nota Importante sobre Conexão:** O servidor de banco de dados (MySQL) pode levar mais tempo para iniciar completamente do que o servidor web (PHP/Nginx). Se você tentar acessar **localhost:8000** imediatamente e receber um erro de "Connection refused" ou "SQLSTATE[HY000] [2002]", aguarde mais alguns segundos/minutos e atualize a página.
+
 ### 3. Acesso à Aplicação
 
-Após alguns segundos (tempo necessário para o MySQL inicializar), a aplicação estará disponível em:
+Após alguns segundos/minutos (tempo necessário para o MySQL inicializar), a aplicação estará disponível em:
 
 ➡️ http://localhost:8000
 
@@ -86,7 +88,7 @@ Embora o sistema esteja funcional para as operações de fluxo de caixa primári
 
 * **Exclusão de Anuidades:**
   *  O endpoint de exclusão `(DELETE /anuidades/{ano}/delete)` funciona no backend.
-  *  No entanto, a opção de exclusão não está visível na interface (UI). A exclusão só é possível através do end-point e se nenhuma cobrança estiver relacionada à anuidade.
+  *  No entanto, a opção de exclusão não está visível na interface (UI). A exclusão só é possível através do endpoint e se nenhuma cobrança estiver relacionada à anuidade.
 *  **Status do Associado:**
    *  O sistema assume que todos os associados cadastrados estão **ativos** e são incluídos na geração de cobranças em lote.
 
@@ -94,5 +96,5 @@ Embora o sistema esteja funcional para as operações de fluxo de caixa primári
 
 ## 👤 Autor e Contato
 
-Este projeto foi desenvolvido por Janeto Erick / Janetoerick
+Este projeto foi desenvolvido por Janeto Erick
 * https://github.com/Janetoerick
