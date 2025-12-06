@@ -1,0 +1,24 @@
+.options_anuidade {
+    display: flex; 
+    justify-content: space-between; /* Distribui o espaço entre os itens */
+    align-items: center;           /* Alinha verticalmente */
+    margin-bottom: 20px;
+}
+
+.options_anuidade a {
+    background-color: #28a745; 
+    color: white; 
+    padding: 10px 15px; 
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.options_anuidade form button {
+    background-color: #28a745; 
+    color: white; 
+    border: none; 
+    padding: 10px 15px; 
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}

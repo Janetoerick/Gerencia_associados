@@ -1,3 +1,8 @@
+<?php
+    $this->addCss('/assets/css/anuidade.css');
+?>
+
+
 <div class="container">
     
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -5,7 +10,18 @@
         <a href="/" class="btn" style="background-color: #6c757d; color: white;">Início</a>
     </div>
     
-    <a href="/anuidades/nova" class="btn btn-new" style="margin-bottom: 20px;">+ Cadastrar Nova Anuidade</a>
+    <div class="options_anuidade">
+        <a href="/anuidades/nova" class="btn btn-new" style="margin-bottom: 20px;">+ Cadastrar Nova Anuidade</a>
+
+        <form action="/cobrancas/gerar_anuidade_atual" method="POST" style="margin-bottom: 20px;">
+            <button type="submit" 
+                onclick="return confirm('ATENÇÃO: Deseja gerar as cobranças de anuidade para TODOS os associados ativos no ano <?= date('Y') ?>?');"
+            >
+                + Gerar Cobrança do ano (<?= date('Y') ?>)
+            </button>
+        </form>
+    </div>
+    
     
     <?php if (isset($_SESSION['msg_sucesso'])): ?>
         <div class="message-box success-message"><?= htmlspecialchars($_SESSION['msg_sucesso']) ?></div>

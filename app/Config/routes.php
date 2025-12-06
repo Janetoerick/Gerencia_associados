@@ -67,4 +67,7 @@ return function (RouteCollector $r) {
     // POST /associados/{id}/cobrancas/pagar_tudo (Realiza pagamento de uma cobrança)
     $r->addRoute('POST', '/associados/{id}/cobrancas/pagar_tudo', 'CobrancaController@registrarPagamentoTotal');
 
+    // POST /cobrancas/gerar_anuidade_atual (Gerar Cobranças em Lote para o ANO ATUAL)
+    $r->addRoute('POST', '/cobrancas/gerar_anuidade_atual', 'CobrancaController@gerarAnuidadeAtual');
+
 };

@@ -134,6 +134,7 @@ class CobrancaController
         $cobrancaId = $id;
         $associadoId = (int)($_POST['associado_id'] ?? 0);
 
+        // Validação Básica
         if ($cobrancaId <= 0 || $associadoId <= 0) {
             $_SESSION['msg_erro'] = "ID da cobrança inválido na URL.";
             header("Location: /associados"); 
@@ -156,8 +157,10 @@ class CobrancaController
      */
     public function registrarPagamentoTotal(int $id)
     {
+
         $associadoId = $id;
 
+        // Validação Básica
         if ($associadoId <= 0) {
             $_SESSION['msg_erro'] = "ID da cobrança inválido na URL.";
             header("Location: /associados"); 
@@ -172,6 +175,29 @@ class CobrancaController
         header("Location: /associados/{$associadoId}/cobrancas"); 
         exit();
 
+    }
+
+    /**
+     * Gera a cobrança para todos os associados do ano atual
+     * rota POST /cobrancas/gerar_anuidade_atual
+     */
+    public function gerarAnuidadeAtual()
+    {
+        // Identifica o ano corrente
+        $ano_atual = date('Y');
+
+        // Chama o Model para executar a lógica de geração
+        $resultado = $this->model->gerarCobrancasEmLote($ano_atual);
+
+        if ($resultado['sucesso']) {
+            $_SESSION['msg_sucesso'] = "Cobranças do ano {$ano_atual} geradas com sucesso! ({$resultado['criadas']} cobranças criadas).";
+        } else {
+            $_SESSION['msg_erro'] = "Erro na geração das cobranças: " . $resultado['mensagem'];
+        }
+
+        // Redireciona de volta para a tela de anuidades
+        header('Location: /anuidades');
+        return;
     }
 
 }

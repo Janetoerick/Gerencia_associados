@@ -194,4 +194,66 @@ class CobrancaModel
         }
     }
 
+    /**
+    * Registra a cobrança para todos os associados cadastrados do ano.
+    */
+    public function gerarCobrancasEmLote(int $ano): array
+    {
+        try {
+            // --- 1. BUSCAR VALOR DA ANUIDADE ---
+            // Você precisará de um método para buscar o valor na tabela 'anuidades'
+
+            $anuidadeModel = new \App\Models\AnuidadeModel(); 
+            $anuidade = $anuidadeModel->getValorByAno($ano); 
+
+            if (!$anuidade) {
+                return ['sucesso' => false, 
+                    'mensagem' => "Valor da anuidade para o ano {$ano} não foi cadastrado. Crie o registro primeiro."
+                ];
+            }
+
+            $valor_base = $anuidade;
+
+            // Busca todos os associados
+            $associadoModel = new \App\Models\AssociadoModel();
+            $associados = $associadoModel->getAll();
+            
+            $criadas = 0; // para contagem de quantos associados recebem a cobrança
+
+            $pago = 1;
+
+            foreach ($associados as $associado) {
+                // Verifica se a cobrança já existe para evitar duplicidade (usando a constraint UNIQUE)
+                
+                $sql_check = "SELECT id FROM cobranca WHERE Associado_id = :associado_id AND Anuidade_ano = :ano";
+                $stmt_check = $this->db->getConnection()->prepare($sql_check);
+                $stmt_check->execute([':associado_id' => $associado['id'], ':ano' => $ano]);
+
+                if ($stmt_check->fetchColumn()) {
+                    continue; // Cobrança já existe, pula para o próximo
+                }
+
+                // Cria o registro da cobrança
+                $sql = "INSERT INTO cobranca (Associado_id, Anuidade_ano, valor_cobrado, pago)
+                            VALUES (:associado_id, :anuidade_ano, :valor_cobrado, :pago)";
+
+                $stmt->bindParam(':associado_id', $associado['id'], \PDO::PARAM_INT);
+                $stmt->bindParam(':associado_id', $ano, \PDO::PARAM_INT);
+                $stmt->bindParam(':valor_cobrado', $valor_base);
+                $stmt->bindParam(':pago', $pago);
+                
+                $stmt = $this->db->getConnection()->prepare($sql);
+                $stmt->execute();
+
+                $criadas++;
+            }
+
+            return ['sucesso' => true, 'criadas' => $criadas, 'mensagem' => 'Cobranças geradas.'];
+
+        } catch (\PDOException $e) {
+            // Logar o erro em produção
+            return ['sucesso' => false, 'mensagem' => "Erro de Banco de Dados: " . $e->getMessage()];
+        }
+    }
+
 }
