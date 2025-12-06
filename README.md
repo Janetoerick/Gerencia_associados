@@ -68,6 +68,30 @@ O projeto segue um padrão MVC (Model-View-Controller) com as seguintes caracter
 
 ---
 
+## 🗄️ Estrutura do Banco de Dados (Schema)
+
+A base de dados `associacao` é composta por três tabelas principais que seguem as relações de Chave Primária (PK), Chave Estrangeira (FK) e Restrições de Unicidade.
+
+| Tabela | Chave Principal (PK) | Chaves de Relacionamento (FK) | Restrições Únicas (UNIQUE) |
+| :---| :--- | :--- | :--- |
+| **`associado`** | `id` | N/A | `cpf`,`email` |
+| **`anuidade`** | `ano` | N/A | `ano` |
+| **`cobranca`** | `id` | `Associado_id (FK para `associado`), `Anuidade_ano` (FK para `anuidade`) | `(Associado_id, Anuidade_ano)` |
+
+---
+
+## ⚠️ Limitações
+
+Embora o sistema esteja funcional para as operações de fluxo de caixa primárias, há algumas limitações conhecidas no design da interface (UI) e regras de negócio:
+
+* **Exclusão de Anuidades:**
+  *  O endpoint de exclusão `(DELETE /anuidades/{ano}/delete)` funciona no backend.
+  *  No entanto, a opção de exclusão não está visível na interface (UI). A exclusão só é possível através do end-point e se nenhuma cobrança estiver relacionada à anuidade.
+*  **Status do Associado:**
+   *  O sistema assume que todos os associados cadastrados estão **ativos** e são incluídos na geração de cobranças em lote.
+
+---
+
 ## 👤 Autor e Contato
 
 Este projeto foi desenvolvido por Janeto Erick / Janetoerick
