@@ -42,7 +42,7 @@ class AnuidadeController
             'titulo' => 'Criar Anuidade'
         ];
 
-        $this->view->render('anuidades/create', $dados);
+        $this->view->render('anuidades/create', $dados, 'form_layout');
     }
 
     /**
