@@ -220,14 +220,16 @@ class CobrancaModel
             
             $criadas = 0; // para contagem de quantos associados recebem a cobrança
 
-            $pago = 1;
+            $pago = 0;
 
             foreach ($associados as $associado) {
                 // Verifica se a cobrança já existe para evitar duplicidade (usando a constraint UNIQUE)
                 
                 $sql_check = "SELECT id FROM cobranca WHERE Associado_id = :associado_id AND Anuidade_ano = :ano";
                 $stmt_check = $this->db->getConnection()->prepare($sql_check);
-                $stmt_check->execute([':associado_id' => $associado['id'], ':ano' => $ano]);
+                $stmt_check->bindParam(':associado_id', $associado['id'], \PDO::PARAM_INT);
+                $stmt_check->bindParam(':ano', $ano, \PDO::PARAM_INT);
+                $stmt_check->execute();
 
                 if ($stmt_check->fetchColumn()) {
                     continue; // Cobrança já existe, pula para o próximo
@@ -237,12 +239,14 @@ class CobrancaModel
                 $sql = "INSERT INTO cobranca (Associado_id, Anuidade_ano, valor_cobrado, pago)
                             VALUES (:associado_id, :anuidade_ano, :valor_cobrado, :pago)";
 
-                $stmt->bindParam(':associado_id', $associado['id'], \PDO::PARAM_INT);
-                $stmt->bindParam(':associado_id', $ano, \PDO::PARAM_INT);
-                $stmt->bindParam(':valor_cobrado', $valor_base);
-                $stmt->bindParam(':pago', $pago);
-                
                 $stmt = $this->db->getConnection()->prepare($sql);
+
+                $stmt->bindParam(':associado_id', $associado['id'], \PDO::PARAM_INT);
+                $stmt->bindParam(':anuidade_ano', $ano, \PDO::PARAM_INT);
+                $stmt->bindParam(':valor_cobrado', $valor_base);
+                $stmt->bindParam(':pago', $pago, \PDO::PARAM_INT);
+                
+                
                 $stmt->execute();
 
                 $criadas++;
