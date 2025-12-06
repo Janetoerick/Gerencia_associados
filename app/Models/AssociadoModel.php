@@ -108,7 +108,7 @@ class AssociadoModel
      */
     public function update(int $id, array $data)
     {
-        $erros = $this->verify_data($data);
+        $erros = $this->verify_data($data, $id);
         if (!empty($erros)) {
             return $erros;
         }
@@ -159,7 +159,7 @@ class AssociadoModel
     /*
      * Verifica se os dados passados são válidos
      */
-    public function verify_data(array $data)
+    public function verify_data(array $data, ?int $ignoreId = null)
     {
         $erros = [];
 
@@ -175,7 +175,7 @@ class AssociadoModel
             $erros['email'] = "O e-mail fornecido é inválido.";
         }
         
-        if (!$this->isEmailUnique($email, $data['id'] ?? null)) {
+        if (!$this->isEmailUnique($email, $ignoreId ?? null)) {
             $erros['email'] = "Este e-mail já está cadastrado para outro associado.";
         }
 

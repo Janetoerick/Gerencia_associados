@@ -1,6 +1,6 @@
 <div class="container form-small-width"> 
     
-    <h2>Editar Associado: <?= htmlspecialchars($associado['nome']) ?></h2>
+    <h2>Editar Associado</h2>
 
     <?php if (isset($_SESSION['msg_erro'])): ?>
         <div class="message-box error-message"><?= htmlspecialchars($_SESSION['msg_erro']) ?></div>
@@ -34,9 +34,7 @@
             type="text" 
             name="cpf" 
             id="cpf" 
-            value="<?= htmlspecialchars($associado['cpf']) ?>" 
-            readonly 
-            style="background-color: #eee;" 
+            value="<?= htmlspecialchars($associado['cpf']) ?>"
         >
         
         <label for="data_filiacao">Data de Filiação</label>

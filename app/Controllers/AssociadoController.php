@@ -167,12 +167,15 @@ class AssociadoController {
             return;
         }
 
-        $this->view->render('associados/edit', ['associado' => $associado], 'form_layout');
+        $this->view->render('associados/edit', [
+            'associado' => $associado,
+            'titulo' => 'Editar Associado'
+        ], 'form_layout');
     }
 
     /**
     * Processa a atualização de um associado.
-    * rota POST /associados
+    * rota POST /associados/atualizar/{id}
     */
     public function update(int $id)
     {
@@ -193,6 +196,7 @@ class AssociadoController {
             return;
         }
         
+        $_SESSION['msg_sucesso'] = 'Informações do associado ' . $dados['nome'] . ' modificados com sucesso!';
         header('Location: /associados');
     }
 
